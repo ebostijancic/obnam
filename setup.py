@@ -15,10 +15,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from distutils.core import setup, Extension
+from distutils.core import Extension
 from distutils.cmd import Command
 from distutils.command.build import build
 from distutils.command.clean import clean
+from setuptools import setup
 import glob
 import os
 import shutil
@@ -82,6 +83,7 @@ class CleanMore(clean):
                        for base in basenames
                        if base.endswith('.pyc')]:
                 os.remove(x)
+
 
 class Check(Command):
 
@@ -172,4 +174,15 @@ setup(name='obnam',
         'check': Check,
         'clean': CleanMore,
       },
+      install_requires=[
+        'cliapp',
+        'larch',
+        'paramiko',
+        'setuptools',
+        'ttystatus',
+      ],
+      entry_points={
+          'console_scripts': [
+              'obnam = obnamlib.scripts:run_obnam'],
+          },
      )

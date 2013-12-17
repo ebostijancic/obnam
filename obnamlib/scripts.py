@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Copyright (C) 2009  Lars Wirzenius
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,7 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import obnamlib
 
-import obnamlib.script import run_obnam
 
-run_obnam()
+def run_obnam():
+    obnamlib.App(progname='obnam', version=obnamlib.__version__).run()
