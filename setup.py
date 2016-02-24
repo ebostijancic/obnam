@@ -180,7 +180,7 @@ setup(name='obnam',
         'paramiko',
         'setuptools',
         'ttystatus',
-        "lz4"
+        'lz4'
       ],
       entry_points={
           'console_scripts': [
