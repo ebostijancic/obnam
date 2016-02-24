@@ -19,7 +19,7 @@ from distutils.core import Extension
 from distutils.cmd import Command
 from distutils.command.build import build
 from distutils.command.clean import clean
-from setuptools import setup
+from setuptools import setup, Extension, Command
 import glob
 import os
 import shutil
@@ -180,6 +180,7 @@ setup(name='obnam',
         'paramiko',
         'setuptools',
         'ttystatus',
+        "lz4"
       ],
       entry_points={
           'console_scripts': [

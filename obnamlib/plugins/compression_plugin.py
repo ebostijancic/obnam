@@ -17,6 +17,7 @@
 import logging
 import os
 import zlib
+import lz4
 
 import obnamlib
 
@@ -28,6 +29,11 @@ class DeflateCompressionFilter(object):
         self.warned = False
 
     def filter_read(self, data, repo, toplevel):
+        how = self.app.settings['compress-with']
+
+        if how == 'lz4':
+          return lz4.uncompress(data)
+
         return zlib.decompress(data)
 
     def filter_write(self, data, repo, toplevel):
@@ -40,6 +46,8 @@ class DeflateCompressionFilter(object):
                                    "Use --compress-with=deflate instead")
                 self.warned = True
             data = zlib.compress(data)
+        elif how == 'lz4':
+            data = lz4.compress(data)
 
         return data
 
@@ -48,9 +56,9 @@ class CompressionPlugin(obnamlib.ObnamPlugin):
 
     def enable(self):
         self.app.settings.choice(['compress-with'],
-                                 ['none', 'deflate', 'gzip'],
+                                 ['none', 'deflate', 'gzip', 'lz4'],
                                  'use PROGRAM to compress repository with '
-                                    '(one of none, deflate)',
+                                    '(one of none, deflate, lz4)',
                                  metavar='PROGRAM')
 
         hooks = [
